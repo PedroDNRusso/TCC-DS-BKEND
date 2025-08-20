@@ -1,0 +1,395 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API",
+        "version": "1.0.0",
+        "description": "Documentação da API do TCC-DS Diagnóstico Digital",
+        "contact": {
+            "name": "Pedro Duarte, Mellyssa Silveira, Lizzie Sousa e Rodrigo Passberg",
+            "email": "pedrodnrusso@gmail.com",
+            "url": "https://github.com/PedroDNRusso"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Servidor local"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Teste geral da API",
+            "description": "Endpoint de teste da API"
+        },
+        {
+            "name": "CRUD de Pacientes",
+            "description": "Endpoints de pacientes"
+        },
+        {
+            "name": "CRUD de Medicos",
+            "description": "Endpoints de medicos"
+        },
+        {
+            "name": "CRUD de Enferemeiros",
+            "description": "Endpoints de enfermeiros"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "Teste geral da API"
+                ],
+                "summary": "Endpoint de teste geral da API",
+                "responses": {
+                    "200": {
+                        "description": "Retorna o título da API"
+                    },
+                    "500": {
+                        "description": "Erro de resposta do SERVIDOR"
+                    }
+                }
+            }
+        },
+        "/pacientes": {
+            "get": {
+                "tags": [
+                    "CRUD de Pacientes"
+                ],
+                "summary": "Endpoint para obter todos os pacientes",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pacientes cadastrados"
+                    },
+                    "500": {
+                        "description": "Servidor não está respondendo"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CRUD de Pacientes"
+                ],
+                "summary": "Endpoint para cadastrar novo paciente",
+                "requestBody": {
+                    "description": "Dados de acesso",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "default": "Beatriz Vitoria"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "bai.vit@email.com"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "default": "senha123"
+                                    },
+                                    "cpf": {
+                                        "type": "string",
+                                        "default": "54381567890"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "datetime",
+                                        "default": "2025-08-12T08:00:00.000Z"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "default": "19971348235"
+                                    },
+                                    "endereco": {
+                                        "type": "string",
+                                        "default": "Rua das Flores, 123, Bairro Jardim, Cidade Exemplo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Novo paciente"
+                    },
+                    "400": {
+                        "description": "Erro ao cadastrar paciente, envie nome, email, senha, cpf, data_nascimento e endereco"
+                    }
+                }
+            }
+        },
+        "/pacientes/{id}": {
+            "put": {
+                "tags": [
+                    "CRUD de Pacientes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id do paciente a ser alterado",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "summary": "Endpoint para alterar dados do usuário",
+                "requestBody": {
+                    "description": "Dados de exemplo",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "default": 7685
+                                    },
+                                    "nome": {
+                                        "type": "string",
+                                        "default": "Beatriz Vitoria"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "bai.vit@email.com"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "default": "senha123"
+                                    },
+                                    "cpf": {
+                                        "type": "string",
+                                        "default": "54381567890"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "datetime",
+                                        "default": "2025-08-12T08:00:00.000Z"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "default": "19971348235"
+                                    },
+                                    "endereco": {
+                                        "type": "string",
+                                        "default": "Rua das Flores, 123, Bairro Jardim, Cidade Exemplo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Paciente alterado com sucesso"
+                    },
+                    "400": {
+                        "description": "Erro ao cadastrar paciente, envie nome, email, senha, cpf, data_nascimento e endereco"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CRUD de Pacientes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id do paciente a ser excluido",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "summary": "Endpoint para excluir um paciente",
+                "responses": {
+                    "204": {
+                        "description": "Paciente excluido com sucesso"
+                    },
+                    "500": {
+                        "description": "Não foi possível excluir paciente"
+                        }
+                    }
+            }
+        },
+        "/medicos": {
+            "get": {
+                "tags": [
+                    "CRUD de Medicos"
+                ],
+                "summary": "Endpoint para obter todos os medicos",
+                "responses": {
+                    "200": {
+                        "description": "Lista de medicos cadastrados"
+                    },
+                    "500": {
+                        "description": "Servidor não está respondendo"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CRUD de Medicos"
+                ],
+                "summary": "Endpoint para cadastrar novo medico",
+                "requestBody": {
+                    "description": "Dados de acesso",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "default": "Dr. João Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "joao@gmail.com"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "default": "senha123"
+                                    },
+                                    "crm": {
+                                        "type": "string",
+                                        "default": "123456"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "datetime",
+                                        "default": "2025-08-12T08:00:00.000Z"
+                                    },
+                                    "especialidade": {
+                                        "type": "string",
+                                        "default": "Cardiologia"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "default": "19971348235"
+                                    },
+                                    "endereco": {
+                                        "type": "string",
+                                        "default": "Rua das Flores, 123, Bairro Jardim, Cidade Exemplo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Novo medico cadastrado"
+                    },
+                    "400": {
+                        "description": "Erro ao cadastrar medico, envie nome, email, senha, crm, especialidade e endereco"
+                    }
+                }
+            }
+        },
+        "/medicos/{id}": {
+            "put": {
+                "tags": [
+                    "CRUD de Medicos"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id do medico a ser alterado",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "summary": "Endpoint para alterar dados do medico",
+                "requestBody": {
+                    "description": "Dados de exemplo",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "default": 1
+                                    },
+                                    "nome": {
+                                        "type": "string",
+                                        "default": "Dr. João Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "joao@gmail.com"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "default": "senha123"
+                                    },
+                                    "crm": {
+                                        "type": "string",
+                                        "default": "123456"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "datetime",
+                                        "default": "2025-08-12T08:00:00.000Z"
+                                    },
+                                    "especialidade": {
+                                        "type": "string",
+                                        "default": "Cardiologia"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "default": "19971348235"
+                                    },
+                                    "endereco": {
+                                        "type": "string",
+                                        "default": "Rua das Flores, 123, Bairro Jardim, Cidade Exemplo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Medico alterado com sucesso"
+                    },
+                    "400": {
+                        "description": "Erro ao cadastrar medico, envie nome, email, senha, crm, especialidade e endereco"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CRUD de Medicos"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id do medico a ser excluido",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "summary": "Endpoint para excluir um medico",
+                "responses": {
+                    "204": {
+                        "description": "Medico excluido com sucesso"
+                    },
+                    "500": {
+                        "description": "Não foi possível excluir medico"
+                    }
+                }
+            }
+        }
+    }
+}
