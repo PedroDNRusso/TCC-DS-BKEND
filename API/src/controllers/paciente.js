@@ -1,4 +1,5 @@
 const prisma = require('../connect');
+const Middlewares = require('../middleware/auth');
 
 async function gerarIDUnico() {
     let idValido = false;
@@ -26,6 +27,7 @@ const create = async (req, res) => {
     try {
         const id = await gerarIDUnico(); 
 
+        req.body.senha = await Middlewares.createHash(req.body.senha);
         const paciente = await prisma.paciente.create({
             data: { id, nome, email, senha, cpf, data_nascimento, endereco, telefone },
         });
@@ -66,41 +68,6 @@ const readOne = async (req, res) => {
     }
 };
 
-const login = async (req, res) => {
-    const { email, senha } = req.body; 
-    console.log('Tentativa de login:', req.body);
-    try {
-        const paciente = await prisma.paciente.findUnique({
-            where: { email },
-        });
-        if (paciente) {
-            if (paciente.senha === senha) {
-                console.log('Login bem-sucedido:', paciente);
-                res.status(200).json({
-                    id: paciente.id,
-                    nome: paciente.nome,
-                    email: paciente.email,
-                    senha: paciente.senha, // Incluindo a senha para futuras requisições
-                    cpf: paciente.cpf, 
-                    telefone: paciente.telefone, 
-                    data_nascimento: paciente.data_nascimento, 
-                    endereco: paciente.endereco,
-                    message: 'Login bem-sucedido'
-                });
-            } else {
-                console.log('Senha incorreta');
-                res.status(401).json({ message: 'Senha incorreta' });
-            }
-        } else {
-            console.log('Usuário não encontrado');
-            res.status(401).json({ message: 'Usuário não encontrado' });
-        }
-    } catch (err) {
-        console.error('Erro no login:', err);
-        res.status(500).json({ message: 'Erro interno no servidor' });
-    }
-};
-
 const deletar = async (req, res) => {
     const { id } = req.params;
     if (!id || isNaN(Number(id))) {
@@ -126,6 +93,9 @@ const deletar = async (req, res) => {
 const update = async (req, res) => {
     const { id, nome, email, senha, cpf, telefone, data_nascimento, endereco } = req.body;
     console.log('Requisição de atualização:', req.body);
+
+    if (req.body.senha) req.body.senha = await Middlewares.createHash(req.body.senha);
+    try {
 
     if (!id || isNaN(Number(id))) {
         return res.status(400).json({ message: 'ID inválido ou ausente' });
@@ -162,11 +132,16 @@ const update = async (req, res) => {
         console.error('Erro ao atualizar paciente:', err);
         res.status(500).json({ message: 'Erro ao atualizar paciente' });
     }
+    }
+    catch (err) {
+        console.error('Erro na atualização:', err);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
 };
+
 
 module.exports = {
     create,
-    login,
     read,
     readOne,
     deletar,
