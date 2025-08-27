@@ -6,34 +6,40 @@ const prisma = new PrismaClient();
 const login = async (req, res) => {
     const { email, senha, validade } = req.body;
 
+    if (!email || !senha) {
+        return res.status(400).json({ message: 'E-mail e senha são obrigatórios.' });
+    }
+
     try {
         const paciente = await prisma.paciente.findFirst({
-            where: {
-                email: email,
+            where: { 
+                email: email
             }
         });
 
         if (!paciente) {
             return res.status(401).json({ message: 'E-mail ou Senha incorretos!' });
-        } else {
-            const isValidPassword = await Middlewares.validatePassword(senha, paciente.senha);
-            if (!isValidPassword) {
-                return res.status(401).json({ message: 'E-mail ou Senha incorretos!' });
-            }
-            const token = jsonwebtoken.sign(
-                {
-                    id: paciente.id,
-                    nome: paciente.nome,
-                    email: paciente.email,
-                },
-                process.env.SECRET_JWT,
-                { expiresIn: validade ? validade + "min" : "60min" }
-            );
-            res.status(200).json({ token: token });
         }
+
+        const isValidPassword = await Middlewares.validatePassword(senha, paciente.senha);
+        if (!isValidPassword) {
+            return res.status(401).json({ message: 'E-mail ou Senha incorretos!' });
+        }
+
+        const token = jsonwebtoken.sign(
+            {
+                id: paciente.id,
+                nome: paciente.nome,
+                email: paciente.email,
+            },
+            process.env.SECRET_JWT,
+            { expiresIn: validade && !isNaN(validade) ? `${validade}m` : "60m" }
+        );
+
+        return res.status(200).json({ token });
     } catch (err) {
         console.error('Erro no login:', err);
-        res.status(500).json({ message: 'Erro interno do servidor' });
+        return res.status(500).json({ message: 'Erro interno do servidor' });
     }
 };
 
@@ -51,9 +57,9 @@ const validaToken = (req, res) => {
         req.user = decoded;
         res.status(200).json({ message: req.user });
     });
-};
+}
 
 module.exports = {
     login,
     validaToken
-}
+};

@@ -23,13 +23,17 @@ async function gerarIDUnico() {
 const create = async (req, res) => {
     const { nome, email, senha, cpf, data_nascimento, endereco, telefone } = req.body;
     console.log('Dados recebidos:', req.body);
-
     try {
-        const id = await gerarIDUnico(); 
+        // Verifica se o e-mail já está cadastrado
+        const existente = await prisma.paciente.findUnique({ where: { email } });
+        if (existente) {
+            return res.status(409).json({ message: 'E-mail já cadastrado!' });
+        }
 
-        req.body.senha = await Middlewares.createHash(req.body.senha);
+        const id = await gerarIDUnico();
+        const senhaHash = await Middlewares.createHash(senha);
         const paciente = await prisma.paciente.create({
-            data: { id, nome, email, senha, cpf, data_nascimento, endereco, telefone },
+            data: { id, nome, email, senha: senhaHash, cpf, data_nascimento, endereco, telefone },
         });
 
         console.log('Usuário criado:', paciente);
