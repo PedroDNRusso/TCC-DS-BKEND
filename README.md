@@ -47,7 +47,7 @@ code .
 cd api
 npm i prisma -g
 npm init -y
-npm i express cors dotenv
+npm i express cors dotenv bcryptjs jsonwebtoken
 npx prisma init --datasource-provider mysql
 ```
 
