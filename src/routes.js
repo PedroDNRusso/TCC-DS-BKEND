@@ -9,7 +9,36 @@ const { validate } = require('./middlewares/auth.js');
 const { validateMED } = require('./middlewares/authm.js');
 
 rota.get('/', (req, res) => {
-    res.json({ titulo: 'API DD respondendo' });
+    const api = {
+        titulo: 'API TCC-DD',
+        versao: '1.0.0',
+        rotas: [
+            //Paciente
+            { metodo: 'POST', caminho: '/pacientes' },
+            { metodo: 'POST', caminho: '/pacienteslgn' },
+            { metodo: 'GET', caminho: '/pacientes' },
+            { metodo: 'GET', caminho: '/pacientes/:id' },
+            { metodo: 'PUT', caminho: '/pacientes/:id' },
+            { metodo: 'DELETE', caminho: '/pacientes/:id' },
+            //Médico
+            { metodo: 'POST', caminho: '/medicos' },
+            { metodo: 'POST', caminho: '/medicoslgn' },
+            { metodo: 'GET', caminho: '/medicos' },
+            { metodo: 'GET', caminho: '/medicos/:id' },
+            { metodo: 'PUT', caminho: '/medicos/:id' },
+            { metodo: 'DELETE', caminho: '/medicos/:id' },
+            //Atestado
+            { metodo: 'POST', caminho: '/funcmed' },
+            { metodo: 'GET', caminho: '/funcmed' },
+            { metodo: 'GET', caminho: '/funcmed/paciente/:pacienteId' },
+            //Mensagem de Médico
+            { metodo: 'POST', caminho: '/mensmed' },
+            { metodo: 'GET', caminho: '/mensmed' },
+            { metodo: 'GET', caminho: '/mensmed/paciente/:pacienteId' },
+            { metodo: 'DELETE', caminho: '/mensmed/:id' },
+        ]
+    }
+    res.json(api);
 });
 
 //Rotas de paciente
