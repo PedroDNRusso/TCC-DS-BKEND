@@ -5,14 +5,14 @@ const swaggerDoc = require('../swagger.json');
 
 const app = express();
 const routes = require('../src/routes');
-
+const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json())
 app.use(routes)
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-app.listen(3000,()=>{
-    console.log('API respondendo em http://localhost:3000');
+app.listen(port, (req, res) => {
+    console.log('API respondendo em http://localhost:' + port)
     console.log('Documentação em http://localhost:3000/docs');
 });
