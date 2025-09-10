@@ -9,7 +9,36 @@ const { validate } = require('./middleware/auth.js');
 const { validateMED } = require('./middleware/authm.js');
 
 rota.get('/', (req, res) => {
-    res.json({ titulo: 'API DD respondendo' });
+    const api = {
+        titulo: 'API Estacionamento',
+        versao: '1.0.0',
+        rotas: [
+            //Paciente
+            { metodo: 'POST', caminho: '/pacientes' },
+            { metodo: 'POST', caminho: '/pacienteslgn' },
+            { metodo: 'GET', caminho: '/pacientes' },
+            { metodo: 'GET', caminho: '/pacientes/:id' },
+            { metodo: 'PUT', caminho: '/pacientes/:id' },
+            { metodo: 'DELETE', caminho: '/pacientes/:id' },
+            //Medico
+            { metodo: 'POST', caminho: '/medicos' },
+            { metodo: 'POST', caminho: '/medicoslgn' },
+            { metodo: 'GET', caminho: '/medicos' },
+            { metodo: 'GET', caminho: '/medicos/:id' },
+            { metodo: 'PUT', caminho: '/medicos/:id' },
+            { metodo: 'DELETE', caminho: '/medicos/:id' },
+            //Funcao Medica
+            { metodo: 'POST', caminho: '/funcmed' },
+            { metodo: 'GET', caminho: '/funcmed' },
+            { metodo: 'GET', caminho: '/funcmed/paciente/:pacienteId' },
+            //Mensagem Medica
+            { metodo: 'POST', caminho: '/mensmed' },
+            { metodo: 'GET', caminho: '/mensmed' },
+            { metodo: 'GET', caminho: '/mensmed/paciente/:pacienteId' },
+            { metodo: 'DELETE', caminho: '/mensmed/:id' },
+        ]
+    }
+    res.json(api);
 });
 
 //Rotas de paciente
@@ -24,8 +53,8 @@ rota.delete('/pacientes/:id', validate, paciente.deletar); // Rota para deletar 
 rota.post('/medicos', medico.create); // Rota para cadastro
 rota.post('/medicoslgn', medico.login); // Rota para login
 rota.get('/medicos', validateMED, medico.read); // Rota para ler todos os enfermiros
-rota.put('/medicos/:id', validateMED, medico.update); // Rota para update
 rota.get('/medicos/:id', validateMED, medico.readOne); // Rota para ler medico por ID
+rota.put('/medicos/:id', validateMED, medico.update); // Rota para update
 rota.delete('/medicos/:id', validateMED, medico.deletar); // Rota para deletar medico por ID
 
 // Rota de atestado
