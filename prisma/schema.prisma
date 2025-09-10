@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")  
+}
+
+model Paciente{
+  id Int @id 
+  nome String
+  email String @db.VarChar(100) @unique
+  senha String @db.VarChar(100) @unique
+  cpf String? @db.VarChar(11) @unique
+  telefone String? @db.VarChar(15)
+  data_nascimento DateTime? @db.Date
+  endereco String? @db.VarChar(200)
+  atestado Func_Med[]
+  mensagens Mens_Med[]
+}
+
+model Medico{
+  id Int @id 
+  nome String @db.VarChar(100)
+  email String @db.VarChar(100) @unique
+  senha String @db.VarChar(100) @unique
+  crm String @db.VarChar(100) @unique
+  especialidade String? @db.VarChar(100) 
+  cpf String? @db.VarChar(11) @unique
+  telefone String? @db.VarChar(15)
+  data_nascimento DateTime? @db.Date
+  endereco String? @db.VarChar(200)
+  atestado Func_Med[]
+  mensagens Mens_Med[]
+}
+
+model Func_Med{
+  id Int @id 
+  pacienteId Int 
+  medicoId Int 
+  nome_pac String @db.VarChar(100)
+  nome_med String @db.VarChar(100)
+  crm_med String @db.VarChar(100)
+  cpf_pac String @db.VarChar(11)
+  data DateTime @db.Date
+  afast_o DateTime @db.Date
+  afast_c DateTime @db.Date
+  motivo String @db.VarChar(100)
+  ass_med String @db.VarChar(100)
+  paciente Paciente @relation(fields: [pacienteId], references: [id])
+  medico Medico @relation(fields: [medicoId], references: [id])
+}
+
+model Mens_Med{
+  id Int @id 
+  pacienteId Int 
+  medicoId Int 
+  nome_pac String @db.VarChar(100)
+  mensagem String @db.VarChar(255)
+  paciente Paciente @relation(fields: [pacienteId], references: [id])
+  medico Medico @relation(fields: [medicoId], references: [id])
+}
