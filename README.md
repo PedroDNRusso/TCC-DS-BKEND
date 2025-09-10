@@ -1,5 +1,5 @@
-# TCC (Trabalho de Conclusão de Curso) - Back-End para teste em Insomnia e Swagger
-Repositorio de Back-End para teste (Insomnia e Swagger)
+# TCC (Trabalho de Conclusão de Curso)
+Em processo de desenvolvimento
 
 ## Integrantes: 
 * Pedro Duarte, 
@@ -8,7 +8,7 @@ Repositorio de Back-End para teste (Insomnia e Swagger)
 * Mellyssa S.
 
 ## Instituição e Curso
-Projeto desenvolvido com o intuito educacional dos alunos de Desevolvimento de Sistemas - SENAI Jaguariúna
+Projeto desenvolvido com o intuito educacional dos alunos de Desevolvimento de Sistemas - SENAI Jaguariúna 
 
 ## Ideia do Projeto
 O projeto tem com objetivo o desenvolvimento de um diagnostico digital, onde o usuário irá colocar seus sintomas e ira receber uma diagnostico baseado em uma serie de dados com um ChatBot.
@@ -47,14 +47,16 @@ code .
 cd api
 npm i prisma -g
 npm init -y
-npm i express cors dotenv bcryptjs jsonwebtoken
+npm i express cors dotenv bcrypt jsonwebtoken
 npx prisma init --datasource-provider mysql
 ```
 
 - Apos colocar os comandos em ordem no CMD crie um pasta chamada .env (caso os comandos dados ja tenham criado não será necessario)
 
 ```bash
-DATABASE_URL="mysql://root@localhost:3306/dd-bkend?schema=public&timezone=UTC"
+DATABASE_URL="mysql://root@localhost:3306/ddigital?schema=public&timezone=UTC"
+JWT_SECRET=15092025DD
+JWT_SECRET_MED=07112025DD
 ```
 
 - Faremos a migração do banco de dados para o MySQL através do comando a seguir no terminal
@@ -63,7 +65,7 @@ DATABASE_URL="mysql://root@localhost:3306/dd-bkend?schema=public&timezone=UTC"
 npx prisma migrate dev --name init
 ```
 
-- Implemente o comando para instalar as dependencias do Swagger 
+- Implemente o comando para instalar a Documentação Swagger 
 
 ```bash
 npm install swagger-jsdoc
@@ -79,7 +81,10 @@ git config --global user.email "seu-email@exemplo.com"
 ## Tecnologias Utilizadas para o Desenvolvimento
 | Linguagens e Ferramentas  | Funcionalidade |
 | ------------- |:-------------:|
+| [HTML](https://html.spec.whatwg.org/multipage/) | Modelo     |
+| [CSS](https://www.w3.org/Style/CSS/Overview.en.html)    | Visão |
 | [JavaScript (Vanilla)](https://262.ecma-international.org/)  | Controle |
+| [Figma](https://www.figma.com/pt-br/)    | Ferramenta de design de UI e UX |
 | [ORM Prisma](https://262.ecma-international.org/)  | Ferramenta de source que auxilia banco de dados |
 | [Swagger](https://swagger.io/)  | Conjunto de ferrementas para contruir, projetar, documentar e consumir APIs |
 | [Vscode](https://code.visualstudio.com/)    | IDE (Ambiente integrado de desenvolvimento) |
@@ -87,6 +92,7 @@ git config --global user.email "seu-email@exemplo.com"
 | [NodeJS](https://nodejs.org/pt)    | Interpretar codigos em JavaScript (Vanilla) |
 | [XAMPP](https://www.apachefriends.org/pt_br/index.html)    | Software que gera um servidor web local (Banco de Dados) |
 | [Git](https://git-scm.com/downloads)    | Ferramenta colaborativa de versionamento |
+| [GeminiAI](https://gemini.google.com/app?hl=pt-BR)    | Ferramenta de AI desenvolvida pelo Google |
 
 ## Github dos Desenvolvedores
 * [Pedro Duarte](https://github.com/PedroDNRusso)
@@ -99,4 +105,3 @@ git config --global user.email "seu-email@exemplo.com"
 * [Luís Fernando](https://github.com/luisfernandospoljaric)
 * [Reenye Lima](https://github.com/ReenyeLima)
 * [Robson Souza](https://github.com/robsonbsouzaa)
-

@@ -1,11 +1,11 @@
 const jsonwebtoken = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 
-const validate = (req, res, next) => {
+const validateMED = (req, res, next) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return res.status(401).send({ message: "Acesso negado. Nenhum token recebido." }).end();
     try {
-        const payload = jsonwebtoken.verify(token, process.env.SECRET_JWT);
+        const payload = jsonwebtoken.verify(token, process.env.JWT_SECRET_MED);
         req.headers['user'] = payload;
         next();
     } catch (err) {
@@ -14,7 +14,7 @@ const validate = (req, res, next) => {
 }
 
 //Criar um hash da senha Usado na criação de usuário e no login
-const createHash = async (senha) => {
+const createHashMED = async (senha) => {
     if (!senha) return null;
     try {
         const salt = await bcrypt.genSalt(10);
@@ -27,7 +27,7 @@ const createHash = async (senha) => {
 }
 
 //Validar a senha do usuário Usado no login
-const validatePassword = async (senha, hash) => {
+const validatePasswordMED = async (senha, hash) => {
     if (!senha || !hash) return false;
     try {
         return await bcrypt.compare(senha, hash);
@@ -37,4 +37,4 @@ const validatePassword = async (senha, hash) => {
     }
 }
 
-module.exports = { validate, createHash, validatePassword };
+module.exports = { validateMED, createHashMED, validatePasswordMED };

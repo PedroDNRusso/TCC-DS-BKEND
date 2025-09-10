@@ -1,4 +1,9 @@
 const prisma = require('../connect');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const jwtSecret = process.env.JWT_SECRET_MED || "fallback_secret";
 
 async function gerarIDUnico() {
     let idValido = false;

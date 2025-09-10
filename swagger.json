@@ -5,7 +5,7 @@
         "version": "1.0.0",
         "description": "Documentação da API do TCC-DS Diagnóstico Digital",
         "contact": {
-            "name": "Pedro Duarte",
+            "name": "Pedro Duarte, Mellyssa Silveira, Lizzie Sousa e Rodrigo Passberg",
             "email": "pedrodnrusso@gmail.com",
             "url": "https://github.com/PedroDNRusso"
         }
@@ -16,7 +16,7 @@
             "description": "Servidor local"
         }
     ],
-        "securityDefinitions": {
+    "securityDefinitions": {
         "bearerAuth": {
             "type": "apiKey",
             "name": "Authorization",
@@ -43,18 +43,22 @@
             "description": "Endpoint de teste da API"
         },
         {
-            "name": "Login de Paciente",
-            "description": "Endpoint de login de paciente"
+            "name": "Login de Pacientes",
+            "description": "Endpoints de login de pacientes"
         },
         {
             "name": "CRUD de Pacientes",
             "description": "Endpoints de pacientes"
         },
         {
+            "name": "Login de Medicos",
+            "description": "Endpoints de login de medicos"
+        },
+        {
             "name": "CRUD de Medicos",
             "description": "Endpoints de medicos"
         }
-        ],
+    ],
     "paths": {
         "/": {
             "get": {
@@ -72,29 +76,10 @@
                 }
             }
         },
-         "/loginp": {
-            "get": {
-                "tags": [
-                    "Rotas de Login"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Endpoint para validar o login",
-                "responses": {
-                    "200": {
-                        "description": "Login realizado com sucesso"
-                    },
-                    "401": {
-                        "description": "Token inválido ou expirado"
-                    }
-                }
-            },
+        "/pacienteslgn": {
             "post": {
                 "tags": [
-                    "Rotas de Login"
+                    "Login de Pacientes"
                 ],
                 "summary": "Endpoint para fazer o login",
                 "requestBody": {
@@ -106,15 +91,11 @@
                                 "properties": {
                                     "email": {
                                         "type": "string",
-                                        "default": "bai.vit@email.com"
+                                        "default": "Escreva o email aqui"
                                     },
                                     "senha": {
                                         "type": "string",
-                                        "default": "senha123"
-                                    },
-                                    "validade": {
-                                        "type": "integer",
-                                        "default": 30
+                                        "default": "Escreva a senha aqui"
                                     }
                                 }
                             }
@@ -219,7 +200,7 @@
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "path",
+                        "in": "put",
                         "required": true,
                         "description": "Id do paciente a ser alterado",
                         "schema": {
@@ -237,7 +218,7 @@
                                 "properties": {
                                     "id": {
                                         "type": "integer",
-                                        "default": 7685
+                                        "default": "7685"
                                     },
                                     "nome": {
                                         "type": "string",
@@ -293,7 +274,7 @@
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "path",
+                        "in": "delete",
                         "required": true,
                         "description": "Id do paciente a ser excluido",
                         "schema": {
@@ -310,12 +291,53 @@
                         "description": "Não foi possível excluir paciente"
                         }
                     }
+                }
+            },
+            "/medicoslgn": {
+            "post": {
+                "tags": [
+                    "Login de Medicos"
+                ],
+                "summary": "Endpoint para fazer o login",
+                "requestBody": {
+                    "description": "Dados de login",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "default": "Escreva o email aqui"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "default": "Escreva a senha aqui"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso"
+                    },
+                    "400": {
+                        "description": "Erro ao fazer login, verifique e-mail e senha"
+                    }
+                }
             }
         },
         "/medicos": {
             "get": {
                 "tags": [
                     "CRUD de Medicos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "summary": "Endpoint para obter todos os medicos",
                 "responses": {
@@ -341,27 +363,31 @@
                                 "properties": {
                                     "nome": {
                                         "type": "string",
-                                        "default": "Dr. João Silva"
+                                        "default": "Beatriz Vitoria"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "default": "joao@gmail.com"
+                                        "default": "bai.vit@email.com"
                                     },
                                     "senha": {
                                         "type": "string",
                                         "default": "senha123"
                                     },
+                                    "cpf": {
+                                        "type": "string",
+                                        "default": "54382567890"
+                                    },
                                     "crm": {
                                         "type": "string",
-                                        "default": "123456"
+                                        "default": "21213"
+                                    },
+                                    "especialidade": {
+                                        "type": "string",
+                                        "default": "Clinico Geral"
                                     },
                                     "data_nascimento": {
                                         "type": "datetime",
                                         "default": "2025-08-12T08:00:00.000Z"
-                                    },
-                                    "especialidade": {
-                                        "type": "string",
-                                        "default": "Cardiologia"
                                     },
                                     "telefone": {
                                         "type": "string",
@@ -378,10 +404,10 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Novo medico cadastrado"
+                        "description": "Novo paciente"
                     },
                     "400": {
-                        "description": "Erro ao cadastrar medico, envie nome, email, senha, crm, especialidade e endereco"
+                        "description": "Erro ao cadastrar paciente, envie nome, email, senha, cpf, data_nascimento e endereco"
                     }
                 }
             }
@@ -391,18 +417,23 @@
                 "tags": [
                     "CRUD de Medicos"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "path",
+                        "in": "put",
                         "required": true,
-                        "description": "Id do medico a ser alterado",
+                        "description": "Id do paciente a ser alterado",
                         "schema": {
                             "type": "integer"
                         }
                     }
                 ],
-                "summary": "Endpoint para alterar dados do medico",
+                "summary": "Endpoint para alterar dados do usuário",
                 "requestBody": {
                     "description": "Dados de exemplo",
                     "content": {
@@ -412,31 +443,35 @@
                                 "properties": {
                                     "id": {
                                         "type": "integer",
-                                        "default": 1
+                                        "default": "7685"
                                     },
-                                    "nome": {
+                                                                        "nome": {
                                         "type": "string",
-                                        "default": "Dr. João Silva"
+                                        "default": "Beatriz Vitoria"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "default": "joao@gmail.com"
+                                        "default": "bai.vit@email.com"
                                     },
                                     "senha": {
                                         "type": "string",
                                         "default": "senha123"
                                     },
+                                    "cpf": {
+                                        "type": "string",
+                                        "default": "54382567890"
+                                    },
                                     "crm": {
                                         "type": "string",
-                                        "default": "123456"
+                                        "default": "21213"
+                                    },
+                                    "especialidade": {
+                                        "type": "string",
+                                        "default": "Clinico Geral"
                                     },
                                     "data_nascimento": {
                                         "type": "datetime",
                                         "default": "2025-08-12T08:00:00.000Z"
-                                    },
-                                    "especialidade": {
-                                        "type": "string",
-                                        "default": "Cardiologia"
                                     },
                                     "telefone": {
                                         "type": "string",
@@ -453,10 +488,10 @@
                 },
                 "responses": {
                     "202": {
-                        "description": "Medico alterado com sucesso"
+                        "description": "Paciente alterado com sucesso"
                     },
                     "400": {
-                        "description": "Erro ao cadastrar medico, envie nome, email, senha, crm, especialidade e endereco"
+                        "description": "Erro ao cadastrar paciente, envie nome, email, senha, cpf, data_nascimento e endereco"
                     }
                 }
             },
@@ -464,27 +499,32 @@
                 "tags": [
                     "CRUD de Medicos"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "path",
+                        "in": "delete",
                         "required": true,
-                        "description": "Id do medico a ser excluido",
+                        "description": "Id do paciente a ser excluido",
                         "schema": {
                             "type": "integer"
                         }
                     }
                 ],
-                "summary": "Endpoint para excluir um medico",
+                "summary": "Endpoint para excluir um paciente",
                 "responses": {
                     "204": {
-                        "description": "Medico excluido com sucesso"
+                        "description": "Paciente excluido com sucesso"
                     },
                     "500": {
-                        "description": "Não foi possível excluir medico"
+                        "description": "Não foi possível excluir paciente"
+                        }
                     }
                 }
             }
-        }
-    }  
+    }
 }
