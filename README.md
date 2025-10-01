@@ -85,6 +85,12 @@ vercel link
 vercel env pull .env
 ```
 
+- Comando para colocar as alterações por commit
+
+```bash
+vercel --prod
+```
+
 - Caso seja de interesse, coloque seu email para conectar o Git ao GitHub
 
 ```bash
