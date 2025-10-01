@@ -80,7 +80,6 @@ const login = async (req, res) => {
     const { email, senha } = req.body;
     console.log('📥 Tentativa de login:', req.body);
     try {
-        // 🔄 Troquei para findFirst (garante que acha mesmo sem @unique)
         const paciente = await prisma.paciente.findFirst({
             where: { email },
         });
