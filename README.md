@@ -48,7 +48,7 @@ cd api
 npm i prisma -g
 npm init -y
 npm i express cors dotenv bcrypt jsonwebtoken
-npx prisma init --datasource-provider mysql
+npx prisma init --datasource-provider postgresql
 ```
 
 - Apos colocar os comandos em ordem no CMD crie um pasta chamada .env (caso os comandos dados ja tenham criado não será necessario)
@@ -70,6 +70,19 @@ npx prisma migrate dev --name init
 ```bash
 npm install swagger-jsdoc
 npm install swagger-ui-express
+```
+
+- Interpretador de comandos Vercel
+
+```bash
+npm i -g vercel@latest
+```
+
+- Linkar projeto com o Vercel
+
+```bash
+vercel link
+vercel env pull .env
 ```
 
 - Caso seja de interesse, coloque seu email para conectar o Git ao GitHub
