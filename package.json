@@ -4,7 +4,7 @@
   "main": "api/server.js",
   "scripts": {
     "dev": "npx nodemon api/server.js",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma migrate reset --force && prisma generate",
     "migrate:dev": "prisma migrate dev --name init",
     "migrate:deploy": "prisma migrate deploy"
   },
