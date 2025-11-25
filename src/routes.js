@@ -5,6 +5,7 @@ const paciente = require('./controllers/paciente.js');
 const medico = require('./controllers/medico.js');
 const func_med = require('./controllers/func_med.js');
 const mens_med = require('./controllers/mens_med.js');
+const func_ui = require('./controllers/func_ui.js');
 const { validate } = require('./middlewares/auth.js');
 const { validateMED } = require('./middlewares/authm.js');
 
@@ -36,6 +37,11 @@ rota.get('/', (req, res) => {
             { metodo: 'GET', caminho: '/mensmed' },
             { metodo: 'GET', caminho: '/mensmed/paciente/:pacienteId' },
             { metodo: 'DELETE', caminho: '/mensmed/:id' },
+
+            { metodo: 'POST', caminho: '/funcui' },
+            { metodo: 'GET', caminho: '/funcui' },
+            { metodo: 'GET', caminho: '/funcui/medico/:medicoId' },
+            { metodo: 'DELETE', caminho: '/funcui/:id' },
         ]
     }
     res.json(api);
@@ -67,5 +73,11 @@ rota.post('/mensmed', validateMED, mens_med.create); // Rota para criar mensagem
 rota.get('/mensmed', validate, mens_med.read); // Rota para ler todos os mensagens
 rota.get('/mensmed/paciente/:pacienteId', validate, mens_med.readOne);
 rota.delete('/mensmed/:id', validate, mens_med.deletar); // Rota para deletar mensagem por ID
+
+// Rota de Mensagem de Usuário
+rota.post('/funcui', validate, func_ui.create); // Rota para criar resposta
+rota.get('/funcui', validateMED, func_ui.read);
+rota.get('/funcui/medico/:medicoId', validateMED, func_ui.readOne);
+rota.delete('/funcui/:id', validateMED, func_ui.deletar); // Rota para deletar resposta por ID
 
 module.exports = rota;
